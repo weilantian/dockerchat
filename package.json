@@ -1,0 +1,33 @@
+{
+  "name": "weebot-server",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "ejs": "^2.6.1",
+    "eslint": "^5.4.0",
+    "eslint-config-airbnb": "^17.1.0",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-jsx-a11y": "^6.1.1",
+    "eslint-plugin-react": "^7.11.1",
+    "express": "^4.16.3",
+    "express-session": "^1.15.6",
+    "jade": "^1.11.0",
+    "jsonfile": "^4.0.0",
+    "nedb": "^1.8.0",
+    "qr-image": "^3.2.0",
+    "socket.io": "^2.1.1",
+    "wechat4u": "^0.7.6",
+    "wechaty": "^0.20.3",
+    "file-box": "^0.8.22",
+    "brolog" :"^1.4.9",
+    "wechaty-puppet": "^0.14.1"
+  },
+  "scripts": {
+    "start": "./fuckLin.sh"
+  },
+  "engines": {
+    "node": "10.9.0"
+  }
+}

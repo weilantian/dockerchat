@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>打开微信，扫描下面这个二维码：</title>
+</head>
+
+<body>
+<h1>这是管理界面</h1>
+<p>完成配置后，点击开始服务，自动回复功能将会自动开始运行。</p>
+<form action="/action/startService">
+    <p>回复的内容</p><input name="reply" value="<%= reply %>" placeholder="回复的内容""></p>
+    <p>开启Emergency Helper</p><input  name="useit" value="true" type="checkbox" name="openEm" <%= openEmma %> value="yes" placeholder="是否开启emergency"">
+    <p>当对方回我这个我将收到紧急消息的提示</p><input name="emergencyMsg" value="<%= emergencyMsg %>" placeholder="别人回复这里的东西会自动触发"">
+    <hr>
+    <button>保存设置并启动服务</button>
+</form>
+</body>
+
+
+</html>

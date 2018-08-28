@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>状态提示</title>
+</head>
+
+<body>
+<h1>你的服务器正在正常的运行。</h1>
+<p>收到信息时，将帮你回复<%= reply %></p>
+<p>Emergency的开启状态：<%= useit %></p>
+<p>收到<%= emergencyMsg %>时，我们将不会自动回复内容。</p>
+<form action="/action/stop">
+    <button>关闭勿扰模式。</button>
+</form>
+</body>
+
+
+</html>
