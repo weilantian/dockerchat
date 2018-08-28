@@ -173,6 +173,17 @@ app.post('/auth/login', (req, res) => {
   }
 });
 
+app.get('/action/logout', (req, res) => {
+  if (cookieChecker(req, res) && isLogin) {
+    bot.logOut();
+    setTimeout(() => {
+      bot.start();
+      isLogin = false;
+      res.redirect('/');
+    }, 3000);
+  }
+});
+
 app.listen(PORT, () => {
   console.warn('服务器开始运行');
 });
