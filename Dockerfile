@@ -1,8 +1,12 @@
-FROM node:10-alpine
+FROM node:10-slim
 
 # See https://crbug.com/795759
+RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add - \
+    && echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list \
+    && apt-get update && apt-get install --no-install-recommends yarn
+
+
 RUN apt-get update && apt-get install -yq libgconf-2-4
-RUN apk add yarn
 
 # Install latest chrome dev package and fonts to support major charsets (Chinese, Japanese, Arabic, Hebrew, Thai and a few others)
 # Note: this installs the necessary libs to make the bundled version of Chromium that Puppeteer
