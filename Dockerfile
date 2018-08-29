@@ -54,4 +54,4 @@ USER pptruser
 USER pptruser
 
 ENTRYPOINT ["dumb-init", "--"]
-CMD node index.js
+CMD sudo node index.js
