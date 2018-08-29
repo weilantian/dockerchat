@@ -18,7 +18,7 @@
     $(function() {
         var socket = io()
         socket.on('finishWatting', function() {
-            $(location).attr('/');
+            self.location.href="/"
         })
     })
 </script>

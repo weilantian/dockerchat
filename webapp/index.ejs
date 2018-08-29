@@ -17,9 +17,11 @@
 <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
 <script>
     $(function() {
+        console.log('123')
         var socket = io()
         socket.on('loginSuccessed', function() {
-            $(location).attr('/action/scaned');
+            console.log('sss')
+            self.location.href="/action/scaned"
         })
     })
 </script>

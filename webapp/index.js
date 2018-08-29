@@ -1,13 +1,13 @@
 const express = require('express');
-const jsonfile = require('jsonfile');
 const app = express();
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
 const { Wechaty } = require('wechaty');
 const qr = require('qr-image');
 // const ejs = require('ejs');
-const file = './settings.json';
-const setObj = jsonfile.readFileSync(file);
+const setObj = {
+  start: false, setOrNot: false, reply: 'sss', emergency: { useIt: true, emergencyMsg: 'emergency' },
+};
 const path = require('path');
 const path1 = path.resolve('qr.png');
 const session = require('express-session');
@@ -64,11 +64,14 @@ bot.on('scan', (qrcode, status) => {
 })
   .start();
 function cookieChecker(req, res) {
+  console.log('cookie');
   if (req.session.pwd !== 'ZZYzzy98y') {
     res.redirect('/auth');
     return false;
   }
+  console.log('i am here');
   if (!gotTheCode) {
+    console.log('wait');
     res.redirect('/wait');
     return false;
   }
@@ -196,6 +199,10 @@ app.get('/action/logout', (req, res) => {
       res.redirect('/');
     }, 3000);
   }
+});
+
+io.on('connection', () => {
+  console.log('a user connected');
 });
 
 http.listen(PORT, () => {
