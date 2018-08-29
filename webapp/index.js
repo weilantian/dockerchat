@@ -24,32 +24,24 @@ app.use(session({
 }));
 app.use(bodyParser());
 const bot = Wechaty.instance();
-bot.on('scan', (qrcode, status) => {
-  console.log('gotCode');
+bot.on('scan', (qrcode) => {
   const qrImG = qr.image(qrcode, { type: 'png' });
   qrImG.pipe(require('fs').createWriteStream(path1));
+  isLogin = false;
   gotTheCode = true;
-  console.log(status);
   io.emit('finishWatting');
   isLogin = false;
 }).on('login', () => {
   io.emit('loginSuccessed');
-  console.log('登陆完成！');
   isLogin = true;
 }).on('message', (msg) => {
   if (setObj.start) {
     if (msg.room() === null) {
       if (!msg.self()) {
-        if (msg.text() === setObj.emergency.emergencyMsg) {
-          console.log('Emergency消息收到');
-        } else {
+        if (msg.text() !== setObj.emergency.emergencyMsg) {
           msg.say(setObj.reply);
         }
-      } else {
-        console.log('send by myself');
       }
-    } else {
-      console.log('send by group');
     }
   }
   if (msg.self()) {
@@ -64,14 +56,11 @@ bot.on('scan', (qrcode, status) => {
 })
   .start();
 function cookieChecker(req, res) {
-  console.log('cookie');
   if (req.session.pwd !== 'ZZYzzy98y') {
     res.redirect('/auth');
     return false;
   }
-  console.log('i am here');
   if (!gotTheCode) {
-    console.log('wait');
     res.redirect('/wait');
     return false;
   }
@@ -89,11 +78,9 @@ app.get('/', (req, res) => {
       res.render('index');
     }
     if (isLogin && !setObj.start) {
-      console.log('sss');
       res.redirect('/admin.zzy');
     }
     if (isLogin && setObj.start) {
-      console.log('sssss');
       res.redirect('/running.robot');
     }
   }
@@ -155,12 +142,10 @@ app.get('/action/startService', (req, res) => {
     setObj.setOrNot = true;
     startService();
     res.redirect('/running.robot');
-    console.log(setObj);
   }
 });
 
 app.get('/running.robot', (req, res) => {
-  console.log('ru');
   if (cookieChecker(req, res)) {
     if (setObj.start) {
       let useIt = '停止';
@@ -201,13 +186,9 @@ app.get('/action/logout', (req, res) => {
   }
 });
 
-io.on('connection', () => {
-  console.log('a user connected');
-});
+io.on('connection', () => {});
 
-http.listen(PORT, () => {
-  console.warn('服务器开始运行');
-});
+http.listen(PORT, () => {});
 
 // bot.on('login', () => {
 //   console.log('Login Successful!!');
