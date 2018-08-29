@@ -1,4 +1,3 @@
-node_modules
-qe.png
+webapp/node_modules
 .eslintsrc.js
 .vscode

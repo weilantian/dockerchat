@@ -1,7 +1,7 @@
 const express = require('express');
 const jsonfile = require('jsonfile');
 const app = express();
-const http = require('http');
+const http = require('http').Server(app);
 const io = require('socket.io')(http);
 const { Wechaty } = require('wechaty');
 const qr = require('qr-image');
