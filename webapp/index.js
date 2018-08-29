@@ -1,6 +1,8 @@
 const express = require('express');
 const jsonfile = require('jsonfile');
 const app = express();
+const http = require('http');
+const io = require('socket.io')(http);
 const { Wechaty } = require('wechaty');
 const qr = require('qr-image');
 // const ejs = require('ejs');
@@ -10,7 +12,7 @@ const path = require('path');
 const path1 = path.resolve('qr.png');
 const session = require('express-session');
 const bodyParser = require('body-parser');
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 3000;
 let gotTheCode = false;
 let isLogin = false;
 app.set('view engine', 'ejs');
@@ -28,7 +30,10 @@ bot.on('scan', (qrcode, status) => {
   qrImG.pipe(require('fs').createWriteStream(path1));
   gotTheCode = true;
   console.log(status);
+  io.emit('finishWatting');
+  isLogin = false;
 }).on('login', () => {
+  io.emit('loginSuccessed');
   console.log('登陆完成！');
   isLogin = true;
 }).on('message', (msg) => {
@@ -61,6 +66,10 @@ bot.on('scan', (qrcode, status) => {
 function cookieChecker(req, res) {
   if (req.session.pwd !== 'ZZYzzy98y') {
     res.redirect('/auth');
+    return false;
+  }
+  if (!gotTheCode) {
+    res.redirect('/wait');
     return false;
   }
   return true;
@@ -99,6 +108,10 @@ app.get('/getCode', (req, res) => {
   }
 });
 
+app.get('/wait', (req, res) => {
+  res.render('wait');
+});
+
 app.get('/action/scaned', (req, res) => {
   if (cookieChecker(req, res)) {
     cookieChecker(req, res);
@@ -116,12 +129,13 @@ app.get('/admin.zzy', (req, res) => {
   if (cookieChecker(req, res)) {
     if (!isLogin || setObj.start) {
       res.redirect('/');
+    } else {
+      let isEM = '';
+      if (setObj.emergency.useIt) {
+        isEM = 'Checked="checked"';
+      }
+      res.render('console', { reply: setObj.reply, openEmma: isEM, emergencyMsg: setObj.emergency.emergencyMsg });
     }
-    let isEM = '';
-    if (setObj.emergency.useIt) {
-      isEM = 'Checked="checked"';
-    }
-    res.render('console', { reply: setObj.reply, openEmma: isEM, emergencyMsg: setObj.emergency.emergencyMsg });
   }
 });
 
@@ -175,7 +189,7 @@ app.post('/auth/login', (req, res) => {
 
 app.get('/action/logout', (req, res) => {
   if (cookieChecker(req, res) && isLogin) {
-    bot.logOut();
+    bot.logout();
     setTimeout(() => {
       bot.start();
       isLogin = false;
@@ -184,7 +198,7 @@ app.get('/action/logout', (req, res) => {
   }
 });
 
-app.listen(PORT, () => {
+http.listen(PORT, () => {
   console.warn('服务器开始运行');
 });
 

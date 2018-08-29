@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "mobx": "^5.1.0"
+  }
+}

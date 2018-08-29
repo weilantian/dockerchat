@@ -48,11 +48,10 @@ RUN groupadd -r pptruser && useradd -r -g pptruser -G audio,video pptruser \
 
 ADD ./webapp /opt/webapp/
 WORKDIR /opt/webapp
-RUN yarn install
 USER pptruser
 
 # Run everything after as non-privileged user.
 USER pptruser
 
 ENTRYPOINT ["dumb-init", "--"]
-CMD node index.js 
+CMD ./start.sh
